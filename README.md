@@ -1,0 +1,1 @@
+Script para realizar ping para varios endereços ao mesmo tempo, a fim de validar se a algum equipamento desconectado/desligado. Foi usado tbm a biblioteca pyinstaller para transformar script em um executavel windows.
