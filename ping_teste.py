@@ -16,7 +16,6 @@ print("os dados devem estar separados por ; na seguinte sequencia 'IP;DESCRIÇÃ
 
 time.sleep(5)
 
-input()
 system('cls')
 
 if arquivo.exists():
