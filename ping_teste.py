@@ -3,6 +3,8 @@ import pandas as pd
 import time
 from pathlib import Path
 from os import system
+import sys
+import threading
 
 system('cls')
 arquivo = Path('lista.csv')
@@ -38,15 +40,37 @@ def teste_ip(ip):
     except Exception as e:
         return {'ip': ip, 'status': 'Error', 'response_time': None, 'error': str(e)}
 
+def mostrar_progresso(iterador, total):
+    progress_chars = ['|', '/', '-', '\\']
+    while not iterador.done:
+        sys.stdout.write(f"\rProcessando... {progress_chars[iterador.count % len(progress_chars)]}")
+        sys.stdout.flush()
+        time.sleep(0.1)
+        iterador.count += 1
+
 print('Iniciando teste....\n')
 
 system('cls')
-results = [teste_ip(ip) for ip in df.iloc[:, 0]]
-print("===== TESTE DE CONEXÃO =====\n")
 
+class Iterador:
+    def __init__(self):
+        self.done = False
+        self.count = 0
+
+iterador = Iterador()
+
+thread_progresso = threading.Thread(target=mostrar_progresso, args=(iterador, len(df)))
+thread_progresso.start()
+
+results = [teste_ip(ip) for ip in df.iloc[:, 0]]
+
+iterador.done = True
+thread_progresso.join()
+
+system('cls')
+print("===== TESTE DE CONEXÃO =====\n")
 print("IP           | DESCRIÇÃO       | STATUS | PING")
 print("----------------------------------------------")
-
 
 erros = [result for result in results if result['status'].strip() == 'ERRO']
 outros = [result for result in results if result['status'].strip() != 'ERRO']
@@ -70,13 +94,6 @@ for i, result in enumerate(outros, start=len(erros)):
     df.loc[i, 'STATUS'] = status
 
 print("----------------------------------------------\n")
-print("Enter para gerar log e finalizar!")
+print("Enter para finalizar!")
 input()
 system('cls')
-
-df.columns = ['IP', 'DESCRIÇÃO', "GRUPO", 'STATUS']
-
-df.to_csv('arquivo.txt', sep='\t', index=False)
-
-print('Log finalizado.')
-time.sleep(2)
