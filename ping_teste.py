@@ -14,7 +14,8 @@ time.sleep(1)
 print("O arquivo CSV deve estar no mesmo local com o nome 'lista.csv',") 
 print("os dados devem estar separados por ; na seguinte sequencia 'IP;DESCRIÇÃO;GRUPO'.\n")
 
-print('Enter para iniciar.')
+time.sleep(5)
+
 input()
 system('cls')
 
@@ -69,7 +70,7 @@ thread_progresso.join()
 
 system('cls')
 print("===== TESTE DE CONEXÃO =====\n")
-print("IP           | DESCRIÇÃO       | STATUS | PING")
+print("IP           |STATUS  | PING   | DESCRIÇÃO")
 print("----------------------------------------------")
 
 erros = [result for result in results if result['status'].strip() == 'ERRO']
