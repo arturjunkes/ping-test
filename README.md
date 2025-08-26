@@ -16,5 +16,7 @@ O código pode ser convertido em executável para Windows utilizando a bibliotec
 Formato esperado do arquivo lista.csv:
 
 IP;DESCRIÇÃO;GRUPO
+
 192.168.0.1;Servidor;Rede
+
 192.168.0.2;Switch;Rede
